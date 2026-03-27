@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Astronomía: El Libro del Cosmos</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    
+    <script src="https://kit.fontawesome.com/eb496ab1a0.js" crossorigin="anonymous"></script>
+
+    <style>
+        /* --- VARIABLES Y BASE (CSS) --- */
+        :root {
+            --bg-dark: #07090e;
+            --bg-card: #121620;
+            --accent-gold: #ffcc33;
+            --accent-copper: #cd7f32;
+            --text-white: #ffffff;
+            --text-gray: #a0a0a0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-white);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3 { font-family: 'Playfair Display', serif; }
+
+        /* --- NAVEGACIÓN --- */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 5%;
+            background: rgba(7, 9, 14, 0.95);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(205, 127, 50, 0.3);
+        }
+
+        .logo { font-size: 1.5rem; color: var(--accent-gold); font-weight: bold; }
+        .nav-links { display: flex; list-style: none; gap: 2rem; }
+        .nav-links a { text-decoration: none; color: white; font-weight: bold; font-size: 0.9rem; transition: 0.3s; }
+        .nav-links a:hover { color: var(--accent-gold); }
+
+        /* --- HERO SECTION --- */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background: radial-gradient(circle, #1a2030 0%, #07090e 70%);
+            padding: 0 5%;
+        }
+
+        .hero h1 { font-size: clamp(2.5rem, 8vw, 4.5rem); margin: 1rem 0; color: var(--text-white); }
+        .hero h1 span { color: var(--accent-gold); }
+        .badge { border: 1px solid var(--accent-gold); padding: 5px 15px; border-radius: 20px; color: var(--accent-gold); font-size: 0.8rem; letter-spacing: 2px; }
+        .hero-buttons { margin-top: 2rem; display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+
+        /* --- GRID DE CONTENIDO --- */
+        .grid-section { padding: 80px 5%; text-align: center; }
+        .container-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .card {
+            background: var(--bg-card);
+            padding: 2.5rem;
+            border-radius: 15px;
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: 0.4s;
+            position: relative;
+        }
+
+        .card:hover { transform: translateY(-10px); border-color: var(--accent-copper); }
+        .card img { width: 80px; margin-bottom: 1.5rem; filter: drop-shadow(0 0 10px rgba(255,204,51,0.2)); }
+        .card-tag { position: absolute; top: 15px; right: 15px; background: var(--accent-gold); color: black; font-size: 0.6rem; font-weight: bold; padding: 3px 8px; border-radius: 4px; }
+
+        /* --- FORMULARIO NEWSLETTER --- */
+        .newsletter { padding: 80px 5%; background: #090c14; }
+        .newsletter-container {
+            background: var(--bg-card);
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            border-radius: 20px;
+            overflow: hidden;
+            max-width: 1000px;
+            margin: 0 auto;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .news-info { background: var(--accent-gold); color: #000; padding: 3rem; display: flex; flex-direction: column; justify-content: center; text-align: left; }
+        .news-form { padding: 3rem; display: flex; flex-direction: column; gap: 1rem; }
+        .news-form input, .news-form select { padding: 12px; background: #1a2030; border: 1px solid #333; color: white; border-radius: 8px; }
+
+        /* --- BOTONES --- */
+        .btn-primary { background: var(--accent-gold); color: black; padding: 12px 25px; text-decoration: none; border-radius: 8px; font-weight: bold; border: none; cursor: pointer; }
+        .btn-secondary { border: 1px solid var(--accent-gold); color: var(--accent-gold); padding: 12px 25px; text-decoration: none; border-radius: 8px; transition: 0.3s; }
+        .btn-secondary:hover { background: var(--accent-gold); color: black; }
+        .btn-more { background: transparent; border: 1px solid var(--accent-copper); color: var(--accent-copper); padding: 8px 15px; border-radius: 5px; cursor: pointer; margin-top: 15px; transition: 0.3s; }
+        .btn-more:hover { background: var(--accent-copper); color: white; }
+
+        /* --- MODAL --- */
+        .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); display: none; align-items: center; justify-content: center; z-index: 2000; padding: 20px; }
+        .modal.active { display: flex; }
+        .modal-content { background: var(--bg-card); padding: 2.5rem; border-radius: 15px; max-width: 500px; width: 100%; position: relative; border: 1px solid var(--accent-gold); text-align: center; }
+        .close-btn { position: absolute; top: 15px; right: 20px; font-size: 2rem; cursor: pointer; color: var(--accent-gold); }
+
+        /* --- MENSAJES --- */
+        .hidden { display: none; }
+        .mensaje-exito { color: #2ecc71; margin-top: 10px; font-weight: bold; font-size: 0.9rem; }
+
+        /* --- RESPONSIVO --- */
+        @media (max-width: 768px) {
+            .nav-links { display: none; } /* Simplificación para móvil */
+            .hero h1 { font-size: 2.8rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="navbar">
+        <div class="logo"><i class="fas fa-moon"></i> ASTROBOOK</div>
+        <nav>
+            <ul class="nav-links">
+                <li><a href="#inicio">Inicio</a></li>
+                <li><a href="#cosmos">El Cosmos</a></li>
+                <li><a href="#unirse">Unirse</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section id="inicio" class="hero">
+            <div class="hero-content">
+                <span class="badge">SABIDURÍA ANCESTRAL</span>
+                <h1>EL GRAN LIBRO DE <br><span>LA ASTRONOMÍA</span></h1>
+                <p>Explora los misterios del universo desde tu pantalla.</p>
+                <div class="hero-buttons">
+                    <a href="#cosmos" class="btn-primary">COMENZAR VIAJE</a>
+                    <a href="#unirse" class="btn-secondary">SUSCRIBIRSE</a>
+                </div>
+            </div>
+        </section>
+
+        <section id="cosmos" class="grid-section">
+            <h2>OBJETOS <span>CELESTES</span></h2>
+            <div class="container-grid">
+                <article class="card">
+                    <div class="card-tag">ESTRELLA</div>
+                    <img src="https://cdn-icons-png.flaticon.com/512/2698/2698194.png" alt="Sol">
+                    <h3>EL SOL</h3>
+                    <p>Nuestra fuente de vida y energía principal.</p>
+                    <button class="btn-more" onclick="abrirModal('El Sol', 'El Sol es el motor de nuestro sistema solar. Representa el 99.8% de la masa total de nuestro sistema y su luz tarda 8 minutos en llegar a nosotros.')">Ver detalles</button>
+                </article>
+
+                <article class="card">
+                    <div class="card-tag">PLANETA</div>
+                    <img src="https://cdn-icons-png.flaticon.com/512/3590/3590286.png" alt="Saturno">
+                    <h3>SATURNO</h3>
+                    <p>El gigante gaseoso conocido por sus anillos.</p>
+                    <button class="btn-more" onclick="abrirModal('Saturno', 'Es el segundo planeta más grande y el único con un sistema de anillos visible desde la Tierra con telescopios sencillos.')">Ver detalles</button>
+                </article>
+
+                <article class="card">
+                    <div class="card-tag">MISTERIO</div>
+                    <img src="https://cdn-icons-png.flaticon.com/512/2534/2534440.png" alt="Agujero Negro">
+                    <h3>AGUJEROS NEGROS</h3>
+                    <p>Regiones del espacio donde nada escapa.</p>
+                    <button class="btn-more" onclick="abrirModal('Agujeros Negros', 'Son restos de estrellas masivas que colapsaron. Su gravedad es tan fuerte que ni siquiera la luz puede escapar de ellos.')">Ver detalles</button>
+                </article>
+            </div>
+        </section>
+
+        <section id="unirse" class="newsletter">
+            <div class="newsletter-container">
+                <div class="news-info">
+                    <h2>¿QUIERES APRENDER MÁS?</h2>
+                    <p>Únete a nuestra comunidad de observadores del cielo y recibe noticias semanales.</p>
+                </div>
+                <form id="astroForm" class="news-form">
+                    <input type="text" id="nombre" placeholder="Tu nombre" required>
+                    <input type="email" id="correo" placeholder="Tu email" required>
+                    <select id="interes">
+                        <option value="Planetas">Me interesan los Planetas</option>
+                        <option value="Estrellas">Me interesan las Estrellas</option>
+                        <option value="Telescopios">Me interesan los Telescopios</option>
+                    </select>
+                    <button type="submit" class="btn-primary">ENVIAR SOLICITUD</button>
+                    <p id="msgExito" class="mensaje-exito hidden">¡Éxito! Tu suscripción ha sido procesada.</p>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="cerrarModal()">&times;</span>
+            <h2 id="modalTitle" style="color: var(--accent-gold)"></h2>
+            <p id="modalBody" style="margin-top: 20px; color: var(--text-gray)"></p>
+        </div>
+    </div>
+
+    <script>
+        /* --- LÓGICA (JAVASCRIPT) --- */
+
+        // Función para abrir la ventana emergente
+        function abrirModal(titulo, texto) {
+            document.getElementById('modalTitle').innerText = titulo;
+            document.getElementById('modalBody').innerText = texto;
+            document.getElementById('modal').classList.add('active');
+        }
+
+        // Función para cerrar la ventana emergente
+        function cerrarModal() {
+            document.getElementById('modal').classList.remove('active');
+        }
+
+        // Cerrar si hacen clic fuera del cuadro blanco
+        window.onclick = function(event) {
+            const modal = document.getElementById('modal');
+            if (event.target == modal) {
+                cerrarModal();
+            }
+        }
+
+        // Manejo del Formulario
+        document.getElementById('astroForm').addEventListener('submit', function(e) {
+            e.preventDefault(); // No recargar la página
+            
+            const nombre = document.getElementById('nombre').value;
+            const correo = document.getElementById('correo').value;
+            
+            // Mostrar mensaje de éxito en pantalla
+            document.getElementById('msgExito').classList.remove('hidden');
+            
+            // Alerta del sistema (como pidió el profe)
+            alert("¡Hola " + nombre + "! Hemos enviado un correo de confirmación a " + correo);
+            
+            this.reset(); // Limpiar campos
+        });
+    </script>
+</body>
+</html>
